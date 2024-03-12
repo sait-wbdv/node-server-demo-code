@@ -2,7 +2,7 @@
 import http from "http";
 import fs from "fs";
 import { pageData } from "./pageData.js";
-// DONE: set host and port as variables
+
 const host = "localhost";
 const port = 3000;
 
@@ -12,11 +12,8 @@ const serverMessageListener = (req, res) => {
 };
 
 const htmlMessageListener = (req, res) => {
-  // set the header
   res.setHeader("Content-Type", "text/html");
-  // write the status code to the head
   res.writeHead(200);
-  // send it some html
   res.end(pageData);
 };
 
@@ -24,17 +21,18 @@ const htmlMessageListener = (req, res) => {
 
 // const server = http.createServer(htmlMessageListener);
 
-// DONE: serve the index.html file
+// TODO: split the logic out into separate functions passed to create server
 const server = http.createServer((req, res) => {
-  // parse the path for the html file
   let filePath = "." + req.url;
-  // set the path to be equal to where it's served
-  if (filePath === "./") {
+  // TODO: Support a 404 fallback page using the else
+  if (filePath === "./about") {
+    filePath = "./about.html";
+  } else {
     filePath = "./index.html";
   }
-  // read the file and serve it to the client
+
   fs.readFile(filePath, (error, content) => {
-    // send content
+    // TODO: Handle errors
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end(content);
   });
