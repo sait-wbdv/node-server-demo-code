@@ -1,15 +1,19 @@
 "use strict";
 import http from "http";
 
+// DONE: set host and port as variables
 const host = "localhost";
 const port = 3000;
 
-// DONE: Create a server
-const server = http.createServer((request, response) => {
-  response.writeHead(200);
+// DONE: Extract server message into it's own function
+const serverMessageListener = (req, res) => {
+  res.writeHead(200);
   // render data
-  response.end("This is a running server!");
-});
+  res.end("This is better server code running!");
+};
+
+// DONE: Create a server
+const server = http.createServer(serverMessageListener);
 
 // DONE: Set the server to listen
 server.listen(port, host, () => {
