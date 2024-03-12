@@ -1,6 +1,6 @@
 "use strict";
 import http from "http";
-
+import { pageData } from "./pageData.js";
 // DONE: set host and port as variables
 const host = "localhost";
 const port = 3000;
@@ -12,15 +12,15 @@ const serverMessageListener = (req, res) => {
   res.end("This is better server code running!");
 };
 
-const pageData = "Hello world from a variable";
 const htmlMessageListener = (req, res) => {
   // set the header
   res.setHeader("Content-Type", "text/html");
   // write the status code to the head
   res.writeHead(200);
   // send it some html
-  res.end(`<html><h1>${pageData}</h1></html>`);
+  res.end(pageData);
 };
+
 // const server = http.createServer(serverMessageListener);
 
 // DONE: Create a server that serves html
