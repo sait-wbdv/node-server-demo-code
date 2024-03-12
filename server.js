@@ -1,14 +1,13 @@
 "use strict";
 import http from "http";
+import fs from "fs";
 import { pageData } from "./pageData.js";
 // DONE: set host and port as variables
 const host = "localhost";
 const port = 3000;
 
-// DONE: Extract server message into it's own function
 const serverMessageListener = (req, res) => {
   res.writeHead(200);
-  // render data
   res.end("This is better server code running!");
 };
 
@@ -23,8 +22,23 @@ const htmlMessageListener = (req, res) => {
 
 // const server = http.createServer(serverMessageListener);
 
-// DONE: Create a server that serves html
-const server = http.createServer(htmlMessageListener);
+// const server = http.createServer(htmlMessageListener);
+
+// DONE: serve the index.html file
+const server = http.createServer((req, res) => {
+  // parse the path for the html file
+  let filePath = "." + req.url;
+  // set the path to be equal to where it's served
+  if (filePath === "./") {
+    filePath = "./index.html";
+  }
+  // read the file and serve it to the client
+  fs.readFile(filePath, (error, content) => {
+    // send content
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(content);
+  });
+});
 
 server.listen(port, host, () => {
   console.log(`server is running on http://${host}:${port} `);
